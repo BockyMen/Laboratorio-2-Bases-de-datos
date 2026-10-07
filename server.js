@@ -6,6 +6,7 @@ const port = 5000;
 
 api.use(express.json()); 
 api.use("/main", mainRoutes)
+api.get('/ping', (req, res) => res.send('ok'));
 
 //Inicializar API a escuchar peticiones
 api.listen(port, ()=>{
