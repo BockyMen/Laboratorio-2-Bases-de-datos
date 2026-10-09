@@ -10,7 +10,6 @@ const getById = async (id) => {
     return rows[0];
 };
 
-// Streamers que hablan este idioma
 const getStreamers = async (id) => {
     const [rows] = await db.query(
         `SELECT name, total_views, total_followers
@@ -32,7 +31,6 @@ const update = async (id, name_language) => {
     return result.affectedRows > 0;
 };
 
-// No deja borrar un idioma que algun streamer este usando
 const remove = async (id) => {
     const [[uso]] = await db.query(
         'SELECT COUNT(*) AS total FROM streamer WHERE language_idlanguage = ?', [id]);

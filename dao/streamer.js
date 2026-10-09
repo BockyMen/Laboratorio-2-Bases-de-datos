@@ -1,6 +1,5 @@
 const db = require('../services/mysql.service');
 
-// Trae el nombre del idioma y de los juegos en vez de solo los IDs
 const SELECT_BASE = `
     SELECT s.name, s.total_views, s.total_followers,
            s.language_idlanguage, l.name_language AS language,
@@ -22,7 +21,6 @@ const getById = async (name) => {
     return rows[0];
 };
 
-// Streamer + todos sus streams (relacion 1 a N con stream)
 const getWithStreams = async (name) => {
     const streamer = await getById(name);
     if (!streamer) return undefined;
@@ -68,7 +66,6 @@ const update = async (name, data) => {
     return result.affectedRows > 0;
 };
 
-// Borra primero sus streams (tabla hija) y luego el streamer, todo en una transaccion
 const remove = async (name) => {
     const conn = await db.getConnection();
     try {
