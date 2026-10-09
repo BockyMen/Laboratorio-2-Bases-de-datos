@@ -10,13 +10,11 @@ const getById = async (id) => {
     return rows[0];
 };
 
-// Todos los streams de un streamer
 const getByStreamer = async (streamer_name) => {
     const [rows] = await db.query('SELECT * FROM stream WHERE streamer_name = ?', [streamer_name]);
     return rows;
 };
 
-// El streamer debe existir (llave foranea streamer_name)
 const create = async (data) => {
     const { active_days_per_week, avg_viewers_per_stream, streamer_name } = data;
     const [result] = await db.query(

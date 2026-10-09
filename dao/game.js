@@ -1,9 +1,8 @@
-const mysql = require('../services/mysql.service');
+const db = require('../services/mysql.service');
 
-//GET http://127.0.0.1:5000/main
 const getAll = async (req, res) => {
     try {
-        const rows = await mysql.query('SELECT idgame, name FROM game ORDER BY name');
+        const rows = await db.query('SELECT idgame, name FROM game ORDER BY name');
         res.json(rows);
     } catch (err) {
         console.error('Error en getAll:', err.message);
@@ -17,8 +16,8 @@ const create = async (req, res) => {
         if (!name) {
             return res.status(400).send("Info Missing");
         }
-        const [result] = await mysql.conTiempoLimite(
-            mysql.pool.query('INSERT INTO game (name) VALUES (?)', [name]));
+        const [result] = await db.conTiempoLimite(
+            db.pool.query('INSERT INTO game (name) VALUES (?)', [name]));
         res.status(201).json({ idgame: result.insertId, name: name });
     } catch (err) {
         console.error('Error en create:', err.message);
@@ -26,11 +25,10 @@ const create = async (req, res) => {
     }
 };
 
-//GET http://127.0.0.1:5000/main/1
 const getById = async (req, res) => {
     try {
         const id = req.params.id;
-        const rows = await mysql.query('SELECT idgame, name FROM game WHERE idgame = ?', [id]);
+        const rows = await db.query('SELECT idgame, name FROM game WHERE idgame = ?', [id]);
         if (rows.length === 0) {
             return res.status(404).send("404 Not Found");
         }
